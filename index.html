@@ -3,6 +3,7 @@
 <head>
     <link href="https://fonts.googleapis.com/css?family=Great+Vibes|Pacifico|Shadows+Into+Light" rel="stylesheet">
     <link href="slider.css" rel="stylesheet" type="text/css">
+    <link href="canvas.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <style>
@@ -31,8 +32,8 @@
 </style>
 <h1 style="text-align: center">Slideshow:</h1>
 <div style="text-align: center"><button class="button" onclick="myCanvas(); startSlideshow(); style.display = 'none'">Start Slideshow</button></div>
-<canvas id="myCanvas" width="1500" height="1050"
-        style="border:1px solid #d3d3d3;">
+<canvas  id="myCanvas" width="1500" height="1050"
+        style="border:1px solid #d3d3d3;text-align: center;">
     Your browser does not support the HTML5 canvas tag.</canvas>
 <div id="Caption" style="text-align: center; margin: 10px">
     <h1></h1>
@@ -40,14 +41,16 @@
 <div style="text-align: center">
     <button class="button" onclick="previousPhoto();">Previous</button>
     <button class="button" onclick="nextPhoto();">Next</button>
+    <br>
 </div>
 
-<div>
+<div style="text-align: right; margin: 20px;">Automatic Transitions
     <!-- Rounded switch -->
-    <label class="switch">Automatic Transition
+    <label class="switch">
         <input checked id= status type="checkbox" onclick="transitions();">
         <span class="slider round"></span>
     </label>
+
 </div>
 
 
