@@ -2,6 +2,7 @@
 <html>
 <head>
     <link href="https://fonts.googleapis.com/css?family=Great+Vibes|Pacifico|Shadows+Into+Light" rel="stylesheet">
+    <link href="slider.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <style>
@@ -26,9 +27,10 @@
 
     }
 
+
 </style>
 <h1 style="text-align: center">Slideshow:</h1>
-<div style="text-align: center"><button class="button" onclick="myCanvas(); style.display = 'none'">Start Slideshow</button></div>
+<div style="text-align: center"><button class="button" onclick="myCanvas(); startSlideshow(); style.display = 'none'">Start Slideshow</button></div>
 <canvas id="myCanvas" width="1500" height="1050"
         style="border:1px solid #d3d3d3;">
     Your browser does not support the HTML5 canvas tag.</canvas>
@@ -40,7 +42,17 @@
     <button class="button" onclick="nextPhoto();">Next</button>
 </div>
 
+<div>
+    <!-- Rounded switch -->
+    <label class="switch">Automatic Transition
+        <input checked id= status type="checkbox" onclick="transitions();">
+        <span class="slider round"></span>
+    </label>
+</div>
+
+
 <script>
+
     imagesJSON = {captions:["This is my fav company","this is my fav artist"],
         images:["Photos/Apple.png","Photos/eminem.jpg"]};
     myJSON = JSON.stringify(imagesJSON);
@@ -48,6 +60,23 @@
     var ctx = canvas.getContext("2d");
     var index = 0;
     var length = imagesJSON.images.length;
+
+    function startSlideshow(){
+        setInterval(nextPhoto, 5000);
+    }
+    function stopSlideshow(){
+        clearTimeout();
+    }
+    function transitions() {
+        var slideShowStatus = document.getElementById("status").value;
+        if(slideShowStatus==false){
+            stopSlideshow();
+        }
+        if(slideShowStatus==true){
+            startSlideshow();
+        }
+
+    }
     function myCanvas() {
         var currentPhoto = imagesJSON.images[index];
         var currentCaption = imagesJSON.captions[index];
