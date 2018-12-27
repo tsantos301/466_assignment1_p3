@@ -1,9 +1,34 @@
 <!DOCTYPE html>
 <html>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Great+Vibes|Pacifico|Shadows+Into+Light" rel="stylesheet">
+</head>
 <body>
+<style>
+    .button{
+        font-style: oblique;
+        font-size: 20px;
+        cursor: pointer; /*changes the mouse cursor when hovered over.*/
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+        border: black;
+        background-color: #2E2E2E;
+        margin: 20px;
+        color: white;
+        width: 300px;
+        height: 40px;
+        border-radius: 30px; /* Used to make the shape curved*/
+    }
+    body {
+        background-image: url(Photos/background.png);
+        font-family: 'Pacifico', cursive;
+        font-size: 30px;
+        color: white;
 
+    }
+
+</style>
 <h1 style="text-align: center">Slideshow:</h1>
-<div style="text-align: center"><button onclick="myCanvas(); style.display = 'none'">Start Slideshow</button></div>
+<div style="text-align: center"><button class="button" onclick="myCanvas(); style.display = 'none'">Start Slideshow</button></div>
 <canvas id="myCanvas" width="1500" height="1050"
         style="border:1px solid #d3d3d3;">
     Your browser does not support the HTML5 canvas tag.</canvas>
@@ -11,8 +36,8 @@
     <h1></h1>
 </div>
 <div style="text-align: center">
-    <button onclick="previousPhoto();">Previous</button>
-    <button onclick="nextPhoto();">Next</button>
+    <button class="button" onclick="previousPhoto();">Previous</button>
+    <button class="button" onclick="nextPhoto();">Next</button>
 </div>
 
 <script>
