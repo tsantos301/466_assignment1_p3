@@ -1,33 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Slideshow</title>
-</head>
+<html>
 <body>
-<p>Image to use:</p>
-<img id="scream" src="img_the_scream.jpg" alt="The Scream" width="220" height="277">
 
-<p>Canvas to fill:</p>
-<canvas id="myCanvas" width="250" height="300"
+<h1 style="text-align: center">Slideshow:</h1>
+<div style="text-align: center"><button onclick="myCanvas(); style.display = 'none'">Start Slideshow</button></div>
+<canvas id="myCanvas" width="1500" height="1050"
         style="border:1px solid #d3d3d3;">
     Your browser does not support the HTML5 canvas tag.</canvas>
-
-<p><button onclick="myCanvas()">Try it</button></p>
+<div id="Caption" style="text-align: center; margin: 10px">
+    <h1></h1>
+</div>
+<div style="text-align: center">
+    <button onclick="previousPhoto();">Previous</button>
+    <button onclick="nextPhoto();">Next</button>
+</div>
 
 <script>
-
     imagesJSON = {captions:["This is my fav company","this is my fav artist"],
-                images:["apple.png","eminem.png"]};
+        images:["Photos/Apple.png","Photos/eminem.jpg"]};
     myJSON = JSON.stringify(imagesJSON);
+    var canvas = document.getElementById("myCanvas");
+    var ctx = canvas.getContext("2d");
     var index = 0;
-
     function myCanvas() {
-        var c = document.getElementById("myCanvas");
-        var ctx = c.getContext("2d");
-        var img = document.getElementById("scream");
+        var currentPhoto = imagesJSON.images[index];
+        var currentCaption = imagesJSON.captions[index];
+        var img = new Image();
+        img.src = currentPhoto;
+        document.getElementById("Caption").innerHTML = currentCaption;
         ctx.drawImage(img,10,10);
     }
+
+    function nextPhoto(){
+        if (index != 1){ // needs to be length of array
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            index ++;
+            myCanvas();
+        }
+    }
+
+    function previousPhoto() {
+        if (index != 0){
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            index --;
+            myCanvas();
+        }
+    }
 </script>
+
 </body>
 </html>
