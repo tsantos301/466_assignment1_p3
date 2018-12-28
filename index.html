@@ -39,8 +39,8 @@
     <h1></h1>
 </div>
 <div style="text-align: center">
-    <button class="button" onclick="previousPhoto();">Previous</button>
-    <button class="button" onclick="nextPhoto();">Next</button>
+    <button id="previous" class="button" onclick="previousPhoto();">Previous</button>
+    <button id="next" class="button" onclick="nextPhoto();">Next</button>
     <br>
 </div>
 
@@ -103,14 +103,20 @@
         if(randomStatus.checked == false && slideShowStatus.checked==false){
             stopSlideshow(intervalID);//stop all slideshows
             console.log(slideShowStatus.checked +" random to all off");
+            document.getElementById("previous").disabled = false;
+            document.getElementById("next").disabled = false;
         }
         if(randomStatus.checked == false && slideShowStatus.checked ==true){
             stopSlideshow(intervalID); // stop the random slideshow
             startSlideshow(intervalID); //start the regular slideshow
             console.log(slideShowStatus.checked +" random to sequential");
+            document.getElementById("previous").disabled = false;
+            document.getElementById("next").disabled = false;
         }
         if(randomStatus.checked == true){
             startRandomSlideshow(intervalID);
+            document.getElementById("previous").disabled = true;
+            document.getElementById("next").disabled = true;
             //console.log(slideShowStatus+" on section");
         }
 
