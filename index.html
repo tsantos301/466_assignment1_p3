@@ -74,66 +74,83 @@
     var index = 0;
     var length = imagesJSON.images.length;
     var intervalID;
+    var currentPhoto = imagesJSON.images[index];
+    var currentCaption = imagesJSON.captions[index];
+
+
     function startSlideshow(){
-       intervalID = setInterval(nextPhoto, 5000);
+       intervalID = setInterval(nextPhoto, 10000);
     }
+
     function startRandomSlideshow(){
         intervalID = stopSlideshow();
         intervalID = setInterval(nextRandomPhoto, 5000);
     }
+
     function stopSlideshow(){
         clearInterval(intervalID);
     }
+
     function transitions() {
         slideShowStatus = document.getElementById("status");
-        //console.log(slideShowStatus.checked+" before");
-        if(slideShowStatus.checked == false){
-            stopSlideshow(intervalID);
-            //console.log(slideShowStatus.checked +" off section");
-        }
-        if(slideShowStatus.checked == true){
-            startSlideshow(intervalID);
-            //console.log(slideShowStatus+" on section");
-        }
-
+        if(slideShowStatus.checked == false) stopSlideshow(intervalID);
+        if(slideShowStatus.checked == true) startSlideshow(intervalID);
     }
+
     function randomTransitions() {
         var randomStatus = document.getElementById("randomMode");
         console.log(randomStatus.checked+" this is random status" +slideShowStatus.checked + "this is slideshow status");
         if(randomStatus.checked == false && slideShowStatus.checked==false){
             stopSlideshow(intervalID);//stop all slideshows
-            console.log(slideShowStatus.checked +" random to all off");
-            document.getElementById("previous").disabled = false;
-            document.getElementById("next").disabled = false;
+            showButtons();
         }
         if(randomStatus.checked == false && slideShowStatus.checked ==true){
             stopSlideshow(intervalID); // stop the random slideshow
             startSlideshow(intervalID); //start the regular slideshow
-            console.log(slideShowStatus.checked +" random to sequential");
-            document.getElementById("previous").disabled = false;
-            document.getElementById("next").disabled = false;
+            showButtons();
         }
         if(randomStatus.checked == true){
             startRandomSlideshow(intervalID);
-            document.getElementById("previous").disabled = true;
-            document.getElementById("next").disabled = true;
-            //console.log(slideShowStatus+" on section");
+            hideButtons();
         }
 
     }
     function myCanvas() {
-        var currentPhoto = imagesJSON.images[index];
-        var currentCaption = imagesJSON.captions[index];
+        currentPhoto = imagesJSON.images[index];
+        currentCaption = imagesJSON.captions[index];
         var img = new Image();
         img.src = currentPhoto;
         document.getElementById("Caption").innerHTML = currentCaption;
-        ctx.drawImage(img,canvas.width / 2 - img.width / 2,
-            canvas.height / 2 - img.height / 2);
+        img.onload = function() { //ensures that the image is loaded before it is drawn. Fix from https://stackoverflow.com/questions/21316402/canvas-image-not-displaying-until-second-attempt
+            ctx.drawImage(img, canvas.width / 2 - img.width / 2,
+                canvas.height / 2 - img.height / 2); //centering the images
+        }
     }
 
+
     function nextPhoto(){
-        if (index != length-1){ // needs to be length of array
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        var img = new Image();
+        img.src = currentPhoto;
+
+        if (index != length-1){
+            var scaleFactor = 1;
+            for(let i=0;i<100;i++) {
+                console.log(i);
+                setTimeout(function () {
+                    console.log(scaleFactor);
+                    ctx.clearRect(0, 0, canvas.width, canvas.height); // clearing the canvas so that a new picture can be drawn
+                    img.style.opacity = scaleFactor;
+                    ctx.drawImage(img, canvas.width / 2 - img.width / 2,
+                        canvas.height / 2 - img.height / 2); //centering the images
+                    scaleFactor -= 0.1;
+                    ctx.save();
+                    ctx = canvas.getContext("2d");
+
+                }, 10);
+            }
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // clearing the canvas so that a new picture can be drawn
+            ctx.setGlobalAlpha = 1;
             index ++;
             myCanvas();
         }
@@ -154,6 +171,22 @@
         console.log(index + " this is index" );
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         myCanvas();
+    }
+
+    function showButtons() {
+        document.getElementById("previous").disabled = false;
+        document.getElementById("next").disabled = false;
+        document.getElementById("previous").hidden = false;
+        document.getElementById("next").hidden = false;
+    }
+    function hideButtons(){
+        document.getElementById("previous").disabled = true;
+        document.getElementById("previous").hidden = true;
+        document.getElementById("next").disabled = true;
+        document.getElementById("next").hidden = true;
+    }
+    function transitionEffect(img){
+        img.scale(0,0);
     }
 </script>
 
