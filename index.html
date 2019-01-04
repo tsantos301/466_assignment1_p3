@@ -67,7 +67,7 @@
     var slideShowStatus = document.getElementById("status");
     console.log("default "+slideShowStatus.checked);
     imagesJSON = {captions:["This is my fav company","this is my fav artist","This is me playing against Saskatoon Blades","Close up shot of my mask"],
-        images:["Photos/Apple.png","Photos/eminem.jpg","Photos/saskatoon.JPG","Photos/mask.JPG"]};
+        images:["Photos/apple.JPG","Photos/apple2.JPG","Photos/saskatoon.JPG","Photos/mask.JPG","Photos/arcade.JPG","Photos/arcade2.JPG"]};
     myJSON = JSON.stringify(imagesJSON);
     var canvas = document.getElementById("myCanvas");
     var ctx = canvas.getContext("2d");
@@ -79,7 +79,7 @@
 
 
     function startSlideshow(){
-       intervalID = setInterval(nextPhoto, 10000);
+       intervalID = setInterval(nextPhoto, 5000);
     }
 
     function startRandomSlideshow(){
@@ -122,8 +122,13 @@
         img.src = currentPhoto;
         document.getElementById("Caption").innerHTML = currentCaption;
         img.onload = function() { //ensures that the image is loaded before it is drawn. Fix from https://stackoverflow.com/questions/21316402/canvas-image-not-displaying-until-second-attempt
-            ctx.drawImage(img, canvas.width / 2 - img.width / 2,
-                canvas.height / 2 - img.height / 2); //centering the images
+            var hRatio = canvas.width / img.width    ;
+            var vRatio = canvas.height / img.height  ;
+            var ratio  = Math.min ( hRatio, vRatio );
+            var centerShift_x = ( canvas.width - img.width*ratio ) / 2;
+            var centerShift_y = ( canvas.height - img.height*ratio ) / 2;
+            ctx.drawImage(img, 0,0, img.width, img.height,
+                centerShift_x,centerShift_y,img.width*ratio, img.height*ratio);
         }
     }
 
@@ -133,21 +138,21 @@
         img.src = currentPhoto;
 
         if (index != length-1){
-            var scaleFactor = 1;
-            for(let i=0;i<100;i++) {
-                console.log(i);
-                setTimeout(function () {
-                    console.log(scaleFactor);
-                    ctx.clearRect(0, 0, canvas.width, canvas.height); // clearing the canvas so that a new picture can be drawn
-                    img.style.opacity = scaleFactor;
-                    ctx.drawImage(img, canvas.width / 2 - img.width / 2,
-                        canvas.height / 2 - img.height / 2); //centering the images
-                    scaleFactor -= 0.1;
-                    ctx.save();
-                    ctx = canvas.getContext("2d");
-
-                }, 10);
-            }
+            // var scaleFactor = 1;
+            // for(let i=0;i<100;i++) {
+            //     console.log(i);
+            //     setTimeout(function () {
+            //         console.log(scaleFactor);
+            //         ctx.clearRect(0, 0, canvas.width, canvas.height); // clearing the canvas so that a new picture can be drawn
+            //         img.style.opacity = scaleFactor;
+            //         ctx.drawImage(img, canvas.width / 2 - img.width / 2,
+            //             canvas.height / 2 - img.height / 2); //centering the images
+            //         scaleFactor -= 0.1;
+            //         ctx.save();
+            //         ctx = canvas.getContext("2d");
+            //
+            //     }, 10);
+            // }
 
             ctx.clearRect(0, 0, canvas.width, canvas.height); // clearing the canvas so that a new picture can be drawn
             ctx.setGlobalAlpha = 1;
