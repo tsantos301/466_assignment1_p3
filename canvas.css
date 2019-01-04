@@ -2,4 +2,6 @@ canvas{
     margin-right: auto;
     margin-left: auto;
     display: block;
+    transition: width .5s, height .5s, top .5s, left .5s;
 }
+
